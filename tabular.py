@@ -116,9 +116,9 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Telangana Crop Health Challenge')
     parser.add_argument('--data_path', type=str, default="/kaggle/input/sentineltimeseriesdata/SentinelTimeSeriesData/Data.csv", help='Path to the data CSV file')
     parser.add_argument("--splitter", type=str, default="tts", help="Splitter to use for cross-validation")
-    parser.add_argument("--n_splits", type=int, default=None, help="Number of splits for cross-validation")
+    parser.add_argument("--n_splits", type=int, default=5, help="Number of splits for cross-validation")
     parser.add_argument("--random_state", type=int, default=42, help="Random state for reproducibility")
-    parser.add_argument("--group_col", type=str, default=None, help="Column to use for GroupKFold")
+    parser.add_argument("--group_col", type=str, default="Crop", help="Column to use for GroupKFold")
     parser.add_argument("--num_seeds", type=int, default = 1, help="Number of seeds to use for cross-validation")
     args = parser.parse_args()
     if args.splitter not in ["skf", "gkf", "tts", "kf"]:
