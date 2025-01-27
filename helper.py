@@ -32,10 +32,10 @@ def process_row_for_features(index, row):
         features['gndvi'] = calculate_gndvi(nir, green)
         features['savi'] = calculate_savi(nir, red)
         features['msavi'] = calculate_msavi(nir, red)
-        features['red_mean'] = np.nanmean(red)
-        features['green_mean'] = np.nanmean(green)
-        features['blue_mean'] = np.nanmean(blue)
-        features['nir_mean'] = np.nanmean(nir)
+        features['red_mean'] = np.nanmedian(red)
+        features['green_mean'] = np.nanmedian(green)
+        features['blue_mean'] = np.nanmedian(blue)
+        features['nir_mean'] = np.nanmedian(nir)
 
     return features
 
