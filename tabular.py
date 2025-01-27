@@ -35,7 +35,7 @@ def main(args):
     category_mapper = {label: idx for idx, label in enumerate(data_combined['category'].unique()) if pd.notna(label)}
     idx_to_category_mapper = {idx: label for idx, label in enumerate(data_combined['category'].unique()) if pd.notna(label)}
     data_combined['target'] = data_combined['category'].map(category_mapper)
-    data_combined = data_combined.drop(columns=['category', 'State'], axis=1)
+    data_combined = data_combined.drop(columns=['category'], axis=1)
 
     crops = np.unique(data[['Crop', 'CLast', 'CNext']].values)
     crop_idx_map = {crop:idx for idx, crop in enumerate(crops)}
