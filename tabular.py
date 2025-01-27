@@ -104,8 +104,10 @@ def main(args):
                     # encoder.fit(X_temp[col])
                     # X_valid[col] = encoder.transform(X_valid[col])
                     # X_train[col] = encoder.transform(X_train[col])
-                    X_train = X_train.drop(columns=[col], axis=1)
-                    X_valid = X_valid.drop(columns=[col], axis=1)
+                    # X_train = X_train.drop(columns=[col], axis=1)
+                    # X_valid = X_valid.drop(columns=[col], axis=1)
+                X_train = pd.get_dummies(X_train, columns=categorical_cols, dtype='int32')
+                X_valid = pd.get_dummies(X_valid, columns=categorical_cols, dtype='int32')
                     
 
                 model = LGBMClassifier(verbose=-1, random_state=seed)
