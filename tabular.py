@@ -51,11 +51,12 @@ def main(args):
     data_combined['CropMinusCLast'] = data_combined['Crop'] - data_combined['CLast']
 
     categorical_cols = data_combined.select_dtypes(include=['object']).drop(['dataset'], axis=1).columns
+    one_hot_columns = [col for col in categorical_cols if col != 'District']
     for col in categorical_cols:
         encoder = LabelEncoder()
         data_combined[col] = encoder.fit_transform(data_combined[col])
         data_combined[f"{col}_frequency_encoded"] = data_combined[col].map(Counter(data_combined[col]))
-    data_combined = pd.get_dummies(data=data_combined, columns=categorical_cols, dtype='int32')
+    data_combined = pd.get_dummies(data=data_combined, columns=one_hot_columns, dtype='int32')
 
     train_encoded = data_combined[data_combined['dataset'] == 'train'].reset_index(drop=True)
     test_encoded = data_combined[data_combined['dataset'] == 'test'].reset_index(drop=True)
