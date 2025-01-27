@@ -74,6 +74,8 @@ def main(args):
                 X_train, X_valid = X.loc[train_idx], X.loc[valid_idx]
                 y_train, y_valid = y.loc[train_idx], y.loc[valid_idx]
                 train = pd.concat([X_train, y_train], axis=1)
+                X_temp = pd.concat([X_train, X_valid])
+
                 for col in categorical_cols:
                     mean_dict = train.groupby(col)['target'].mean().to_dict()
                     median_dict = train.groupby(col)['target'].median().to_dict()
@@ -94,9 +96,12 @@ def main(args):
 
                     X_valid[f"{col}_frequency_encoded"] = X_valid[col].map(Counter(X_valid[col]))
                     X_train[f"{col}_frequency_encoded"] = X_train[col].map(Counter(X_train[col]))
+
                     encoder = LabelEncoder()
-                    X_train[col] = encoder.fit_transform(X_train[col])
+                    encoder.fit(X_temp[col])
                     X_valid[col] = encoder.transform(X_valid[col])
+                    X_train[col] = encoder.transform(X_train[col])
+                    
 
                 model = LGBMClassifier(verbose=-1, random_state=seed)
                 model.fit(X_train, y_train)
