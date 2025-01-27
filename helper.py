@@ -8,11 +8,11 @@ def process_row_for_features(index, row):
         # print(f"Skipping entry due to missing tif_path for index {index}")
         features.update({
             'ndvi': np.nan,
-            # 'evi': np.nan,
-            # 'ndwi': np.nan,
-            # 'gndvi': np.nan,
-            # 'savi': np.nan,
-            # 'msavi': np.nan
+            'evi': np.nan,
+            'ndwi': np.nan,
+            'gndvi': np.nan,
+            'savi': np.nan,
+            'msavi': np.nan
         })
         return features
 
@@ -23,11 +23,11 @@ def process_row_for_features(index, row):
         nir = src.read(4)
 
         features['ndvi'] = calculate_ndvi(nir, red)
-        # features['evi'] = calculate_evi(nir, red, blue)
-        # features['ndwi'] = calculate_ndwi(nir, green)
-        # features['gndvi'] = calculate_gndvi(nir, green)
-        # features['savi'] = calculate_savi(nir, red)
-        # features['msavi'] = calculate_msavi(nir, red)
+        features['evi'] = calculate_evi(nir, red, blue)
+        features['ndwi'] = calculate_ndwi(nir, green)
+        features['gndvi'] = calculate_gndvi(nir, green)
+        features['savi'] = calculate_savi(nir, red)
+        features['msavi'] = calculate_msavi(nir, red)
 
     return features
 
