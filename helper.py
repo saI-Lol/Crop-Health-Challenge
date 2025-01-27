@@ -12,7 +12,7 @@ def process_row_for_features(index, row):
             'ndwi': np.nan,
             'gndvi': np.nan,
             'savi': np.nan,
-            'msavi': np.nan
+            'msavi': np.nan,
             'red_mean': np.nan,
             'green_mean': np.nan,
             'blue_mean': np.nan,
