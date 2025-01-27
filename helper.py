@@ -13,6 +13,10 @@ def process_row_for_features(index, row):
             'gndvi': np.nan,
             'savi': np.nan,
             'msavi': np.nan
+            'red_mean': np.nan,
+            'green_mean': np.nan,
+            'blue_mean': np.nan,
+            'nir_mean': np.nan
         })
         return features
 
@@ -28,6 +32,11 @@ def process_row_for_features(index, row):
         features['gndvi'] = calculate_gndvi(nir, green)
         features['savi'] = calculate_savi(nir, red)
         features['msavi'] = calculate_msavi(nir, red)
+        features['red_mean'] = np.nanmean(red)
+        features['green_mean'] = np.nanmean(green)
+        features['blue_mean'] = np.nanmean(blue)
+        features['nir_mean'] = np.nanmean(nir)
+
     return features
 
 
