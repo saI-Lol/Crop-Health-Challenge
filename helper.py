@@ -8,15 +8,11 @@ def process_row_for_features(index, row):
         # print(f"Skipping entry due to missing tif_path for index {index}")
         features.update({
             'ndvi': np.nan,
-            'evi': np.nan,
-            'ndwi': np.nan,
-            'gndvi': np.nan,
-            'savi': np.nan,
-            'msavi': np.nan,
-            'red_mean': np.nan,
-            'green_mean': np.nan,
-            'blue_mean': np.nan,
-            'nir_mean': np.nan
+            # 'evi': np.nan,
+            # 'ndwi': np.nan,
+            # 'gndvi': np.nan,
+            # 'savi': np.nan,
+            # 'msavi': np.nan
         })
         return features
 
@@ -27,15 +23,11 @@ def process_row_for_features(index, row):
         nir = src.read(4)
 
         features['ndvi'] = calculate_ndvi(nir, red)
-        features['evi'] = calculate_evi(nir, red, blue)
-        features['ndwi'] = calculate_ndwi(nir, green)
-        features['gndvi'] = calculate_gndvi(nir, green)
-        features['savi'] = calculate_savi(nir, red)
-        features['msavi'] = calculate_msavi(nir, red)
-        features['red_mean'] = np.nanmedian(red)
-        features['green_mean'] = np.nanmedian(green)
-        features['blue_mean'] = np.nanmedian(blue)
-        features['nir_mean'] = np.nanmedian(nir)
+        # features['evi'] = calculate_evi(nir, red, blue)
+        # features['ndwi'] = calculate_ndwi(nir, green)
+        # features['gndvi'] = calculate_gndvi(nir, green)
+        # features['savi'] = calculate_savi(nir, red)
+        # features['msavi'] = calculate_msavi(nir, red)
 
     return features
 
