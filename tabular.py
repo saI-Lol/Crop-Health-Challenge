@@ -97,10 +97,12 @@ def main(args):
                     X_valid[f"{col}_frequency_encoded"] = X_valid[col].map(Counter(X_valid[col]))
                     X_train[f"{col}_frequency_encoded"] = X_train[col].map(Counter(X_train[col]))
 
-                    encoder = LabelEncoder()
-                    encoder.fit(X_temp[col])
-                    X_valid[col] = encoder.transform(X_valid[col])
-                    X_train[col] = encoder.transform(X_train[col])
+                    # encoder = LabelEncoder()
+                    # encoder.fit(X_temp[col])
+                    # X_valid[col] = encoder.transform(X_valid[col])
+                    # X_train[col] = encoder.transform(X_train[col])
+                    X_train = X_train.drop(columns=[col], axis=1)
+                    X_valid = X_valid.drop(columns=[col], axis=1)
                     
 
                 model = LGBMClassifier(verbose=-1, random_state=seed)
