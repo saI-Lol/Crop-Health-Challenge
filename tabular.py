@@ -42,13 +42,13 @@ def main(args):
     data_combined['target'] = data_combined['category'].map(category_mapper)
     data_combined = data_combined.drop(columns=['category'], axis=1)
 
-    crops = np.unique(data[['Crop', 'CLast', 'CNext']].values)
-    crop_idx_map = {crop:idx for idx, crop in enumerate(crops)}
-    data_combined['Crop'] = data_combined['Crop'].map(crop_idx_map)
-    data_combined['CLast'] = data_combined['CLast'].map(crop_idx_map)
-    data_combined['CNext'] = data_combined['CNext'].map(crop_idx_map)
-    data_combined['CNextMinusCrop'] = data_combined['CNext'] - data_combined['Crop']
-    data_combined['CropMinusCLast'] = data_combined['Crop'] - data_combined['CLast']
+    # crops = np.unique(data[['Crop', 'CLast', 'CNext']].values)
+    # crop_idx_map = {crop:idx for idx, crop in enumerate(crops)}
+    # data_combined['Crop'] = data_combined['Crop'].map(crop_idx_map)
+    # data_combined['CLast'] = data_combined['CLast'].map(crop_idx_map)
+    # data_combined['CNext'] = data_combined['CNext'].map(crop_idx_map)
+    # data_combined['CNextMinusCrop'] = data_combined['CNext'] - data_combined['Crop']
+    # data_combined['CropMinusCLast'] = data_combined['Crop'] - data_combined['CLast']
 
     categorical_cols = data_combined.select_dtypes(include=['object']).drop(['dataset'], axis=1).columns
 
