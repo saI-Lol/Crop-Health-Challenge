@@ -74,7 +74,6 @@ def main(args):
                 X_train, X_valid = X.loc[train_idx], X.loc[valid_idx]
                 y_train, y_valid = y.loc[train_idx], y.loc[valid_idx]
                 train = pd.concat([X_train, y_train], axis=1)
-                X_temp = pd.concat([X_train, X_valid])
 
                 for col in categorical_cols:
                     mean_dict = train.groupby(col)['target'].mean().to_dict()
@@ -106,8 +105,12 @@ def main(args):
                     # X_train[col] = encoder.transform(X_train[col])
                     # X_train = X_train.drop(columns=[col], axis=1)
                     # X_valid = X_valid.drop(columns=[col], axis=1)
-                X_train = pd.get_dummies(X_train, columns=categorical_cols, dtype='int32')
-                X_valid = pd.get_dummies(X_valid, columns=categorical_cols, dtype='int32')
+                X_train['dataset'] = 'train'
+                X_valid['dataset'] = 'valid'
+                X_temp = pd.concat([X_train, X_valid])
+                X_temp = pd.get_dummies(X_temp, columns=categorical_cols, dtype='int32')
+                X_train = X_temp[X_temp['dataset'] == 'train'].drop(columns=['dataset'], axis=1)
+                X_valid = X_temp[X_temp['dataset'] == 'valid'].drop(columns=['dataset'], axis=1)
                     
 
                 model = LGBMClassifier(verbose=-1, random_state=seed)
