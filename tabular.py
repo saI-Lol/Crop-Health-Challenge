@@ -51,11 +51,6 @@ def main(args):
     data_combined['CropMinusCLast'] = data_combined['Crop'] - data_combined['CLast']
 
     categorical_cols = data_combined.select_dtypes(include=['object']).drop(['dataset'], axis=1).columns
-    for col in categorical_cols:
-        data_combined[f"{col}_frequency_encoded"] = data_combined[col].map(Counter(data_combined[col]))
-        encoder = LabelEncoder()
-        data_combined[col] = encoder.fit_transform(data_combined[col])
-    data_combined = pd.get_dummies(data=data_combined, columns=categorical_cols, dtype='int32')
 
     train_encoded = data_combined[data_combined['dataset'] == 'train'].reset_index(drop=True)
     test_encoded = data_combined[data_combined['dataset'] == 'test'].reset_index(drop=True)
@@ -78,6 +73,31 @@ def main(args):
             for train_idx, valid_idx in skf.split(X, y):
                 X_train, X_valid = X.loc[train_idx], X.loc[valid_idx]
                 y_train, y_valid = y.loc[train_idx], y.loc[valid_idx]
+                train = pd.concat([X_train, y_train], axis=1)
+                for col in categorical_cols:
+                    mean_dict = train.groupby(col)['target'].mean().to_dict()
+                    median_dict = train.groupby(col)['target'].median().to_dict()
+                    min_dict = train.groupby(col)['target'].min().to_dict()
+                    max_dict = train.groupby(col)['target'].max().to_dict()
+                    nunique_dict = train.groupby(col)['target'].nunique().to_dict()
+                    X_valid[f"{col}_mean_target"] = X_valid[col].map(mean_dict)
+                    X_valid[f"{col}_median_target"] = X_valid[col].map(median_dict)
+                    X_valid[f"{col}_min_target"] = X_valid[col].map(min_dict)
+                    X_valid[f"{col}_max_target"] = X_valid[col].map(max_dict)
+                    X_valid[f"{col}_nunique_target"] = X_valid[col].map(nunique_dict)
+
+                    X_train[f"{col}_mean_target"] = X_train[col].map(mean_dict)
+                    X_train[f"{col}_median_target"] = X_train[col].map(median_dict)
+                    X_train[f"{col}_min_target"] = X_train[col].map(min_dict)
+                    X_train[f"{col}_max_target"] = X_train[col].map(max_dict)
+                    X_train[f"{col}_nunique_target"] = X_train[col].map(nunique_dict)
+
+                    X_valid[f"{col}_frequency_encoded"] = X_valid[col].map(Counter(X_valid[col]))
+                    X_train[f"{col}_frequency_encoded"] = X_train[col].map(Counter(X_train[col]))
+                    encoder = LabelEncoder()
+                    X_train[col] = encoder.fit_transform(X_train[col])
+                    X_valid[col] = encoder.transform(X_valid[col])
+
                 model = LGBMClassifier(verbose=-1, random_state=seed)
                 model.fit(X_train, y_train)
                 y_pred = model.predict(X_valid)
