@@ -5,7 +5,7 @@ def process_row_for_features(index, row):
     features = {'index': index}
     tif_path = row['tif_path']
     if not isinstance(tif_path, str):
-        print(f"Skipping entry due to missing tif_path for index {index}")
+        # print(f"Skipping entry due to missing tif_path for index {index}")
         features.update({
             'ndvi': np.nan,
             'evi': np.nan,
