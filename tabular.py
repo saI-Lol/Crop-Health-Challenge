@@ -124,7 +124,8 @@ def main(args):
         encoding_combinations.extend(combinations(encoding, i))
     
     for cols in column_combinations:
-        df_cols = data_combined[list(cols) + ['target']].copy()
+        cols = list(cols)
+        df_cols = data_combined[cols + ['target']].copy()
         if len(cols) > 1:
             df_cols['combined'] = df_cols[cols].apply(lambda row: '_'.join(row.values.astype(str)), axis=1)
         cols = list(df_cols.columns)
