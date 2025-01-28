@@ -50,7 +50,11 @@ def main(args):
     # data_combined['CNextMinusCrop'] = data_combined['CNext'] - data_combined['Crop']
     # data_combined['CropMinusCLast'] = data_combined['Crop'] - data_combined['CLast']
 
+    cols = ['ExpYield', 'WaterCov', 'IrriCount', 'CHeight', 'CropCoveredArea']
+    data_combined[cols] = data_combined[cols].astype(str)
+
     categorical_cols = data_combined.select_dtypes(include=['object']).drop(['dataset'], axis=1).columns
+    print(categorical_cols)
 
     train_encoded = data_combined[data_combined['dataset'] == 'train'].reset_index(drop=True)
     test_encoded = data_combined[data_combined['dataset'] == 'test'].reset_index(drop=True)
@@ -114,8 +118,8 @@ def main(args):
                 # X_valid = X_temp[X_temp['dataset'] == 'valid'].drop(columns=['dataset'], axis=1)
 
                 #get min and max values in dfs
-                print(X_train.min().min(), X_train.max().max())
-                print(X_valid.min().min(), X_valid.max().max())
+                # print(X_train.min().min(), X_train.max().max())
+                # print(X_valid.min().min(), X_valid.max().max())
                     
 
                 model = LGBMClassifier(verbose=-1, random_state=seed)
