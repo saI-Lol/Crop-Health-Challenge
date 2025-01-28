@@ -100,8 +100,8 @@ def main(args):
                     # X_train[f"{col}_max_target"] = X_train[col].map(max_dict)
                     # X_train[f"{col}_nunique_target"] = X_train[col].map(nunique_dict)
 
-                    # X_valid[f"{col}_frequency_encoded"] = X_valid[col].map(Counter(X_valid[col]))
-                    # X_train[f"{col}_frequency_encoded"] = X_train[col].map(Counter(X_train[col]))
+                    X_valid[f"{col}_frequency_encoded"] = X_valid[col].map(Counter(X_valid[col]))
+                    X_train[f"{col}_frequency_encoded"] = X_train[col].map(Counter(X_train[col]))
 
                     # encoder = LabelEncoder()
                     # encoder.fit(X_temp[col])
