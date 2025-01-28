@@ -74,7 +74,7 @@ def encode_data(X_train, X_valid, y_train, y_valid, encs):
 
 
 def main(args):    
-    # wandb.init(project="telangana-crop-health", name="Experiment-1")
+    wandb.init(project="telangana-crop-health", name="Experiment-2")
     data_path = args.data_path
     # splitter = args.splitter
     n_splits = args.n_splits
@@ -148,11 +148,11 @@ def main(args):
                 results['y_pred'].extend(y_pred)
             f1 = f1_score(results['y_true'], results['y_pred'], average='weighted')
             print(f"Features: {cols}\nEncoding: {encs}\nF1 Score: {f1}\n")
-            # wandb.log({
-            #     "features": cols,
-            #     "encoding": encs,
-            #     "f1": f1
-            # })
+            wandb.log({
+                "features": cols,
+                "encoding": encs,
+                "f1": f1
+            })
 
 
 
