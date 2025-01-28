@@ -112,8 +112,10 @@ def main(args):
                 # X_temp = pd.get_dummies(X_temp, columns=categorical_cols, dtype='int32')
                 # X_train = X_temp[X_temp['dataset'] == 'train'].drop(columns=['dataset'], axis=1)
                 # X_valid = X_temp[X_temp['dataset'] == 'valid'].drop(columns=['dataset'], axis=1)
-                X_train = np.log((X_train **2) + 1)
-                X_valid = np.log((X_valid **2) + 1)
+
+                #get min and max values in dfs
+                print(X_train.min().min(), X_train.max().max())
+                print(X_valid.min().min(), X_valid.max().max())
                     
 
                 model = LGBMClassifier(verbose=-1, random_state=seed)
