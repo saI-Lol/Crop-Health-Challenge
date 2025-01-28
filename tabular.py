@@ -140,7 +140,6 @@ def main(args):
                 X_train, X_valid = X.loc[train_idx], X.loc[valid_idx]
                 y_train, y_valid = y.loc[train_idx], y.loc[valid_idx]
                 X_train_encoded, X_valid_encoded, y_train, y_valid = encode_data(X_train, X_valid, y_train, y_valid, encs)
-                print(X_train_encoded.head())
                 model = LGBMClassifier(verbose=-1, random_state=random_state)
                 model.fit(X_train_encoded, y_train)
                 y_pred = model.predict(X_valid_encoded)
