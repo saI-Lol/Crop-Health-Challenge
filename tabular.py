@@ -112,8 +112,8 @@ def main(args):
                 # X_temp = pd.get_dummies(X_temp, columns=categorical_cols, dtype='int32')
                 # X_train = X_temp[X_temp['dataset'] == 'train'].drop(columns=['dataset'], axis=1)
                 # X_valid = X_temp[X_temp['dataset'] == 'valid'].drop(columns=['dataset'], axis=1)
-                X_train = np.sqrt(X_train)
-                X_valid = np.sqrt(X_valid)
+                X_train = np.log((X_train **2) + 1)
+                X_valid = np.log((X_valid **2) + 1)
                     
 
                 model = LGBMClassifier(verbose=-1, random_state=seed)
