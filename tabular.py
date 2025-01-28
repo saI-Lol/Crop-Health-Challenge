@@ -11,6 +11,7 @@ from collections import Counter
 from sklearn.preprocessing import LabelEncoder
 from lightgbm import LGBMClassifier
 from sklearn.metrics import f1_score
+from shapely.wkt import loads
 
 
 def main(args):    
@@ -26,6 +27,11 @@ def main(args):
         seeds.add(seed)        
 
     data = pd.read_csv(data_path)
+    data['geometry'] = data['geometry'].apply(loads)
+    data[['min_x', 'min_y', 'max_x', 'max_y']] = data.apply(
+        lambda row: pd.Series(row['geometry'].bounds),
+        axis=1
+    )
 
     new_features = Parallel(n_jobs=-1)(delayed(process_row_for_features)(index, row)
                                     for index, row in tqdm(data.iterrows(), total=len(data)))
