@@ -37,30 +37,29 @@ def encode_data(X_train, X_valid, y_train, y_valid, encs):
             X_valid_encoded_list.append(X[X['dataset'] == 'valid'].drop('dataset', axis=1))
         
         train_temp = pd.concat([X_train, y_train], axis=1)
-        valid_temp = pd.concat([X_valid, y_valid], axis=1)
         if enc == "target_mean":
             for col in X_train.columns:
-                target_mean = train.groupby(col)['target'].mean().to_dict()
+                target_mean = train_temp.groupby(col)['target'].mean().to_dict()
                 X_train_encoded_list.append(X_train[col].map(target_mean))
                 X_valid_encoded_list.append(X_valid[col].map(target_mean))
         if enc == "target_median":
             for col in X_train.columns:
-                target_median = train.groupby(col)['target'].median().to_dict()
+                target_median = train_temp.groupby(col)['target'].median().to_dict()
                 X_train_encoded_list.append(X_train[col].map(target_median))
                 X_valid_encoded_list.append(X_valid[col].map(target_median))
         if enc == "target_min":
             for col in X_train.columns:
-                target_min = train.groupby(col)['target'].min().to_dict()
+                target_min = train_temp.groupby(col)['target'].min().to_dict()
                 X_train_encoded_list.append(X_train[col].map(target_min))
                 X_valid_encoded_list.append(X_valid[col].map(target_min))
         if enc == "target_max":
             for col in X_train.columns:
-                target_max = train.groupby(col)['target'].max().to_dict()
+                target_max = train_temp.groupby(col)['target'].max().to_dict()
                 X_train_encoded_list.append(X_train[col].map(target_max))
                 X_valid_encoded_list.append(X_valid[col].map(target_max))
         if enc == "target_std":
             for col in X_train.columns:
-                target_std = train.groupby(col)['target'].std().to_dict()
+                target_std = train_temp.groupby(col)['target'].std().to_dict()
                 X_train_encoded_list.append(X_train[col].map(target_std))
                 X_valid_encoded_list.append(X_valid[col].map(target_std))            
             
