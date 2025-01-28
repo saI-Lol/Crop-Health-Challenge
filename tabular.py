@@ -51,13 +51,13 @@ def main(args):
 
     categorical_cols = ['Crop', 'District', 'Sub-District', 'CropCoveredArea', 
     'CNext', 'CLast', 'CTransp', 'IrriType', 
-    'IrriSource', 'IrriCount', 'WaterCov', 'ExpYield', 'Season', 'target']
+    'IrriSource', 'IrriCount', 'WaterCov', 'ExpYield', 'Season']
     data_combined = data_combined[categorical_cols]
 
     column_combinations = []
     for i in range(1, len(categorical_cols)+1):
         column_combinations.extend(combinations(categorical_cols, i))
-    print(column_combinations)
+    print(len(column_combinations))
 
 
     # crops = np.unique(data[['Crop', 'CLast', 'CNext']].values)
