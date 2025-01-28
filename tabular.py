@@ -22,8 +22,8 @@ def encode_data(X_train, X_valid, y_train, y_valid, encs):
         if enc == "frequency":
             for col in X_train.columns:
                 freq = X_train[col].value_counts().to_dict()
-                X_train_encoded_list.append(X_train[col].map(freq))
-                X_valid_encoded_list.append(X_valid[col].map(freq))
+                X_train_encoded_list.append(X_train[col].map(freq).rename(col + "_freq"))
+                X_valid_encoded_list.append(X_valid[col].map(freq).rename(col + "_freq"))
         if enc == "label": 
             X_train_temp = X_train.copy()   
             X_valid_temp = X_valid.copy()       
@@ -33,35 +33,38 @@ def encode_data(X_train, X_valid, y_train, y_valid, encs):
             for col in X_train.columns:
                 le = LabelEncoder()                
                 X[col] = le.fit_transform(X[col])
-            X_train_encoded_list.append(X[X['dataset'] == 'train'].drop('dataset', axis=1))
-            X_valid_encoded_list.append(X[X['dataset'] == 'valid'].drop('dataset', axis=1))
+            train = X[X['dataset'] == 'train'].drop('dataset', axis=1)
+            valid = X[X['dataset'] == 'valid'].drop('dataset', axis=1)
+            for col in X_train.columns:
+                X_train_encoded_list.append(train[col].rename(col + "_label"))
+                X_valid_encoded_list.append(valid[col].rename(col + "_label"))
         
         train_temp = pd.concat([X_train, y_train], axis=1)
         if enc == "target_mean":
             for col in X_train.columns:
                 target_mean = train_temp.groupby(col)['target'].mean().to_dict()
-                X_train_encoded_list.append(X_train[col].map(target_mean))
-                X_valid_encoded_list.append(X_valid[col].map(target_mean))
+                X_train_encoded_list.append(X_train[col].map(target_mean).rename(col + "_target_mean"))
+                X_valid_encoded_list.append(X_valid[col].map(target_mean).rename(col + "_target_mean"))
         if enc == "target_median":
             for col in X_train.columns:
                 target_median = train_temp.groupby(col)['target'].median().to_dict()
-                X_train_encoded_list.append(X_train[col].map(target_median))
-                X_valid_encoded_list.append(X_valid[col].map(target_median))
+                X_train_encoded_list.append(X_train[col].map(target_median).rename(col + "_target_median"))
+                X_valid_encoded_list.append(X_valid[col].map(target_median).rename(col + "_target_median"))
         if enc == "target_min":
             for col in X_train.columns:
                 target_min = train_temp.groupby(col)['target'].min().to_dict()
-                X_train_encoded_list.append(X_train[col].map(target_min))
-                X_valid_encoded_list.append(X_valid[col].map(target_min))
+                X_train_encoded_list.append(X_train[col].map(target_min).rename(col + "_target_min"))
+                X_valid_encoded_list.append(X_valid[col].map(target_min).rename(col + "_target_min"))
         if enc == "target_max":
             for col in X_train.columns:
                 target_max = train_temp.groupby(col)['target'].max().to_dict()
-                X_train_encoded_list.append(X_train[col].map(target_max))
-                X_valid_encoded_list.append(X_valid[col].map(target_max))
+                X_train_encoded_list.append(X_train[col].map(target_max).rename(col + "_target_max"))
+                X_valid_encoded_list.append(X_valid[col].map(target_max).rename(col + "_target_max"))
         if enc == "target_std":
             for col in X_train.columns:
                 target_std = train_temp.groupby(col)['target'].std().to_dict()
-                X_train_encoded_list.append(X_train[col].map(target_std))
-                X_valid_encoded_list.append(X_valid[col].map(target_std))            
+                X_train_encoded_list.append(X_train[col].map(target_std).rename(col + "_target_std"))
+                X_valid_encoded_list.append(X_valid[col].map(target_std).rename(col + "_target_std"))            
             
     
     X_train_encoded = pd.concat(X_train_encoded_list, axis=1)
