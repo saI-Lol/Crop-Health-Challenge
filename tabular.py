@@ -117,7 +117,7 @@ def main(args):
 
     column_combinations = []
     encoding_combinations = []
-    for i in range(1, len(categorical_cols)+1):
+    for i in range(2, len(categorical_cols)+1):
         column_combinations.extend(combinations(categorical_cols, i))
     
     for i in range(1, len(encoding)+1):
