@@ -13,7 +13,7 @@ from lightgbm import LGBMClassifier
 from sklearn.metrics import f1_score
 from shapely.wkt import loads
 from itertools import combinations
-# import wandb
+import wandb
 
 def encode_data(X_train, X_valid, y_train, y_valid, encs):
     X_train_encoded_list = []
@@ -74,7 +74,7 @@ def encode_data(X_train, X_valid, y_train, y_valid, encs):
 
 
 def main(args):    
-    # wandb.init(project="telangana-crop-health", name="Experiment-1")
+    wandb.init(project="telangana-crop-health", name="Experiment-1")
     data_path = args.data_path
     # splitter = args.splitter
     n_splits = args.n_splits
@@ -140,6 +140,7 @@ def main(args):
                 X_train, X_valid = X.loc[train_idx], X.loc[valid_idx]
                 y_train, y_valid = y.loc[train_idx], y.loc[valid_idx]
                 X_train_encoded, X_valid_encoded, y_train, y_valid = encode_data(X_train, X_valid, y_train, y_valid, encs)
+                print(X_train_encoded.head())
                 model = LGBMClassifier(verbose=-1, random_state=random_state)
                 model.fit(X_train_encoded, y_train)
                 y_pred = model.predict(X_valid_encoded)
@@ -147,11 +148,11 @@ def main(args):
                 results['y_pred'].extend(y_pred)
             f1 = f1_score(results['y_true'], results['y_pred'], average='weighted')
             print(f"Features: {cols}\nEncoding: {encs}\nF1 Score: {f1}\n")
-            # wandb.log({
-            #     "features": cols,
-            #     "encoding": encs,
-            #     "f1": f1
-            # })
+            wandb.log({
+                "features": cols,
+                "encoding": encs,
+                "f1": f1
+            })
 
 
 
